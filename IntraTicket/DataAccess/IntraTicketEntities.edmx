@@ -1,0 +1,321 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="IntraTicketModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="IntraTicketModelStoreContainer">
+          <EntitySet Name="Employees" EntityType="IntraTicketModel.Store.Employees" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Files" EntityType="IntraTicketModel.Store.Files" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TicketCategories" EntityType="IntraTicketModel.Store.TicketCategories" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Tickets" EntityType="IntraTicketModel.Store.Tickets" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Files_Tickets" Association="IntraTicketModel.Store.FK_Files_Tickets">
+            <End Role="Tickets" EntitySet="Tickets" />
+            <End Role="Files" EntitySet="Files" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tickets_AssignTo" Association="IntraTicketModel.Store.FK_Tickets_AssignTo">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tickets_FromUser" Association="IntraTicketModel.Store.FK_Tickets_FromUser">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tickets_TicketCategories" Association="IntraTicketModel.Store.FK_Tickets_TicketCategories">
+            <End Role="TicketCategories" EntitySet="TicketCategories" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Employees">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+          </Key>
+          <Property Name="EmployeeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="EmailAddress" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="Files">
+          <Key>
+            <PropertyRef Name="FileID" />
+          </Key>
+          <Property Name="FileID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="150" />
+          <Property Name="Size" Type="int" Nullable="false" />
+          <Property Name="ContentType" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="Data" Type="varbinary(max)" Nullable="false" />
+          <Property Name="TicketID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TicketCategories">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Category" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Tickets">
+          <Key>
+            <PropertyRef Name="TicketID" />
+          </Key>
+          <Property Name="TicketID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeIDFrom" Type="int" Nullable="false" />
+          <Property Name="EmployeeIDAssignTo" Type="int" Nullable="false" />
+          <Property Name="Subject" Type="varchar" Nullable="false" MaxLength="150" />
+          <Property Name="Description" Type="varchar" Nullable="false" MaxLength="2000" />
+          <Property Name="CategoryID" Type="int" Nullable="false" />
+          <Property Name="Priority" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="DateAdded" Type="datetime" />
+          <Property Name="DueDate" Type="datetime" />
+          <Property Name="Status" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ResolutionMain" Type="varchar" MaxLength="2000" />
+          <Property Name="Resolution1" Type="varchar" MaxLength="2000" />
+        </EntityType>
+        <Association Name="FK_Files_Tickets">
+          <End Role="Tickets" Type="IntraTicketModel.Store.Tickets" Multiplicity="1" />
+          <End Role="Files" Type="IntraTicketModel.Store.Files" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tickets">
+              <PropertyRef Name="TicketID" />
+            </Principal>
+            <Dependent Role="Files">
+              <PropertyRef Name="TicketID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tickets_AssignTo">
+          <End Role="Employees" Type="IntraTicketModel.Store.Employees" Multiplicity="1" />
+          <End Role="Tickets" Type="IntraTicketModel.Store.Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="EmployeeIDAssignTo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tickets_FromUser">
+          <End Role="Employees" Type="IntraTicketModel.Store.Employees" Multiplicity="1" />
+          <End Role="Tickets" Type="IntraTicketModel.Store.Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="EmployeeIDFrom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tickets_TicketCategories">
+          <End Role="TicketCategories" Type="IntraTicketModel.Store.TicketCategories" Multiplicity="1" />
+          <End Role="Tickets" Type="IntraTicketModel.Store.Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TicketCategories">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="IntraTicketModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="IntraTicketEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Employees" EntityType="IntraTicketModel.Employee" />
+          <EntitySet Name="Files" EntityType="IntraTicketModel.File" />
+          <EntitySet Name="TicketCategories" EntityType="IntraTicketModel.TicketCategory" />
+          <EntitySet Name="Tickets" EntityType="IntraTicketModel.Ticket" />
+          <AssociationSet Name="FK_Tickets_AssignTo" Association="IntraTicketModel.FK_Tickets_AssignTo">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tickets_FromUser" Association="IntraTicketModel.FK_Tickets_FromUser">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Files_Tickets" Association="IntraTicketModel.FK_Files_Tickets">
+            <End Role="Tickets" EntitySet="Tickets" />
+            <End Role="Files" EntitySet="Files" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tickets_TicketCategories" Association="IntraTicketModel.FK_Tickets_TicketCategories">
+            <End Role="TicketCategories" EntitySet="TicketCategories" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+          </Key>
+          <Property Name="EmployeeID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="EmailAddress" Type="String" MaxLength="150" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Tickets" Relationship="IntraTicketModel.FK_Tickets_AssignTo" FromRole="Employees" ToRole="Tickets" />
+        </EntityType>
+        <EntityType Name="File">
+          <Key>
+            <PropertyRef Name="FileID" />
+          </Key>
+          <Property Name="FileID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="150" Unicode="false" FixedLength="false" />
+          <Property Name="Size" Type="Int32" Nullable="false" />
+          <Property Name="ContentType" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
+          <Property Name="Data" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="TicketID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Ticket" Relationship="IntraTicketModel.FK_Files_Tickets" FromRole="Files" ToRole="Tickets" />
+        </EntityType>
+        <EntityType Name="TicketCategory">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Category" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Tickets" Relationship="IntraTicketModel.FK_Tickets_TicketCategories" FromRole="TicketCategories" ToRole="Tickets" />
+        </EntityType>
+        <EntityType Name="Ticket">
+          <Key>
+            <PropertyRef Name="TicketID" />
+          </Key>
+          <Property Name="TicketID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeIDFrom" Type="Int32" Nullable="false" />
+          <Property Name="EmployeeIDAssignTo" Type="Int32" Nullable="false" />
+          <Property Name="Subject" Type="String" Nullable="false" MaxLength="150" Unicode="false" FixedLength="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="2000" Unicode="false" FixedLength="false" />
+          <Property Name="CategoryID" Type="Int32" Nullable="false" />
+          <Property Name="Priority" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="DateAdded" Type="DateTime" Precision="3" />
+          <Property Name="DueDate" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="ResolutionMain" Type="String" MaxLength="2000" Unicode="false" FixedLength="false" />
+          <Property Name="Resolution1" Type="String" MaxLength="2000" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="AssignedTo" Relationship="IntraTicketModel.FK_Tickets_AssignTo" FromRole="Tickets" ToRole="Employees" />
+          <NavigationProperty Name="FromUser" Relationship="IntraTicketModel.FK_Tickets_FromUser" FromRole="Tickets" ToRole="Employees" />
+          <NavigationProperty Name="Files" Relationship="IntraTicketModel.FK_Files_Tickets" FromRole="Tickets" ToRole="Files" />
+          <NavigationProperty Name="Category" Relationship="IntraTicketModel.FK_Tickets_TicketCategories" FromRole="Tickets" ToRole="TicketCategories" />
+        </EntityType>
+        <Association Name="FK_Tickets_AssignTo">
+          <End Role="Employees" Type="IntraTicketModel.Employee" Multiplicity="1" />
+          <End Role="Tickets" Type="IntraTicketModel.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="EmployeeIDAssignTo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tickets_FromUser">
+          <End Role="Employees" Type="IntraTicketModel.Employee" Multiplicity="1" />
+          <End Role="Tickets" Type="IntraTicketModel.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="EmployeeIDFrom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Files_Tickets">
+          <End Role="Tickets" Type="IntraTicketModel.Ticket" Multiplicity="1" />
+          <End Role="Files" Type="IntraTicketModel.File" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tickets">
+              <PropertyRef Name="TicketID" />
+            </Principal>
+            <Dependent Role="Files">
+              <PropertyRef Name="TicketID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tickets_TicketCategories">
+          <End Role="TicketCategories" Type="IntraTicketModel.TicketCategory" Multiplicity="1" />
+          <End Role="Tickets" Type="IntraTicketModel.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TicketCategories">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="IntraTicketModelStoreContainer" CdmEntityContainer="IntraTicketEntities">
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="IntraTicketModel.Employee">
+              <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Files">
+            <EntityTypeMapping TypeName="IntraTicketModel.File">
+              <MappingFragment StoreEntitySet="Files">
+                <ScalarProperty Name="FileID" ColumnName="FileID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="ContentType" ColumnName="ContentType" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="TicketID" ColumnName="TicketID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TicketCategories">
+            <EntityTypeMapping TypeName="IntraTicketModel.TicketCategory">
+              <MappingFragment StoreEntitySet="TicketCategories">
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tickets">
+            <EntityTypeMapping TypeName="IntraTicketModel.Ticket">
+              <MappingFragment StoreEntitySet="Tickets">
+                <ScalarProperty Name="TicketID" ColumnName="TicketID" />
+                <ScalarProperty Name="EmployeeIDFrom" ColumnName="EmployeeIDFrom" />
+                <ScalarProperty Name="EmployeeIDAssignTo" ColumnName="EmployeeIDAssignTo" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ResolutionMain" ColumnName="ResolutionMain" />
+                <ScalarProperty Name="Resolution1" ColumnName="Resolution1" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

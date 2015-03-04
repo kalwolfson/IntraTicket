@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PetersTicketsModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="PetersTicketsModelStoreContainer">
+    <EntitySet Name="Employees" EntityType="PetersTicketsModel.Store.Employees" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Files" EntityType="PetersTicketsModel.Store.Files" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="sysdiagrams" EntityType="PetersTicketsModel.Store.sysdiagrams" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TicketCategories" EntityType="PetersTicketsModel.Store.TicketCategories" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Tickets" EntityType="PetersTicketsModel.Store.Tickets" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_Files_Tickets" Association="PetersTicketsModel.Store.FK_Files_Tickets">
+      <End Role="Tickets" EntitySet="Tickets" />
+      <End Role="Files" EntitySet="Files" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tickets_Employees" Association="PetersTicketsModel.Store.FK_Tickets_Employees">
+      <End Role="Employees" EntitySet="Employees" />
+      <End Role="Tickets" EntitySet="Tickets" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tickets_Employees1" Association="PetersTicketsModel.Store.FK_Tickets_Employees1">
+      <End Role="Employees" EntitySet="Employees" />
+      <End Role="Tickets" EntitySet="Tickets" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tickets_TicketCategories" Association="PetersTicketsModel.Store.FK_Tickets_TicketCategories">
+      <End Role="TicketCategories" EntitySet="TicketCategories" />
+      <End Role="Tickets" EntitySet="Tickets" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Employees">
+    <Key>
+      <PropertyRef Name="EmployeeID" />
+    </Key>
+    <Property Name="EmployeeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="EmailAddress" Type="nvarchar" MaxLength="150" />
+  </EntityType>
+  <EntityType Name="Files">
+    <Key>
+      <PropertyRef Name="FileID" />
+    </Key>
+    <Property Name="FileID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="varchar" Nullable="false" MaxLength="150" />
+    <Property Name="Size" Type="int" Nullable="false" />
+    <Property Name="ContentType" Type="varchar" Nullable="false" MaxLength="200" />
+    <Property Name="Data" Type="varbinary(max)" Nullable="false" />
+    <Property Name="TicketID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="TicketCategories">
+    <Key>
+      <PropertyRef Name="CategoryID" />
+    </Key>
+    <Property Name="CategoryID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Category" Type="nvarchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Tickets">
+    <Key>
+      <PropertyRef Name="TicketID" />
+    </Key>
+    <Property Name="TicketID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="EmployeeIDFrom" Type="int" Nullable="false" />
+    <Property Name="EmployeeIDAssignTo" Type="int" Nullable="false" />
+    <Property Name="Subject" Type="varchar" Nullable="false" MaxLength="150" />
+    <Property Name="Description" Type="varchar" Nullable="false" MaxLength="2000" />
+    <Property Name="CategoryID" Type="int" Nullable="false" />
+    <Property Name="Priority" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="DateAdded" Type="datetime" Nullable="false" />
+    <Property Name="DueDate" Type="datetime" Nullable="false" />
+    <Property Name="Status" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="ResolutionMain" Type="varchar" MaxLength="2000" />
+    <Property Name="Resolution1" Type="varchar" MaxLength="2000" />
+  </EntityType>
+  <Association Name="FK_Files_Tickets">
+    <End Role="Tickets" Type="PetersTicketsModel.Store.Tickets" Multiplicity="1" />
+    <End Role="Files" Type="PetersTicketsModel.Store.Files" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tickets">
+        <PropertyRef Name="TicketID" />
+      </Principal>
+      <Dependent Role="Files">
+        <PropertyRef Name="TicketID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tickets_Employees">
+    <End Role="Employees" Type="PetersTicketsModel.Store.Employees" Multiplicity="1" />
+    <End Role="Tickets" Type="PetersTicketsModel.Store.Tickets" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employees">
+        <PropertyRef Name="EmployeeID" />
+      </Principal>
+      <Dependent Role="Tickets">
+        <PropertyRef Name="EmployeeIDFrom" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tickets_Employees1">
+    <End Role="Employees" Type="PetersTicketsModel.Store.Employees" Multiplicity="1" />
+    <End Role="Tickets" Type="PetersTicketsModel.Store.Tickets" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employees">
+        <PropertyRef Name="EmployeeID" />
+      </Principal>
+      <Dependent Role="Tickets">
+        <PropertyRef Name="EmployeeIDAssignTo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tickets_TicketCategories">
+    <End Role="TicketCategories" Type="PetersTicketsModel.Store.TicketCategories" Multiplicity="1" />
+    <End Role="Tickets" Type="PetersTicketsModel.Store.Tickets" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TicketCategories">
+        <PropertyRef Name="CategoryID" />
+      </Principal>
+      <Dependent Role="Tickets">
+        <PropertyRef Name="CategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

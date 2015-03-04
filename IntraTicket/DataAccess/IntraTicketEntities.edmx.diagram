@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d1d1197c49304e5fb918d50c5337b6cd" Name="Diagram1">
+        <EntityTypeShape EntityType="IntraTicketModel.Employee" Width="1.5" PointX="0.75" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="IntraTicketModel.File" Width="1.5" PointX="5.25" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="IntraTicketModel.TicketCategory" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="IntraTicketModel.Ticket" Width="1.5" PointX="3" PointY="2.5" IsExpanded="true" />
+        <AssociationConnector Association="IntraTicketModel.FK_Tickets_AssignTo" ManuallyRouted="false" />
+        <AssociationConnector Association="IntraTicketModel.FK_Tickets_FromUser" ManuallyRouted="false" />
+        <AssociationConnector Association="IntraTicketModel.FK_Files_Tickets" ManuallyRouted="false" />
+        <AssociationConnector Association="IntraTicketModel.FK_Tickets_TicketCategories" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

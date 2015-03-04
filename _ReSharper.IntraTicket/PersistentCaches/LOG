@@ -1,0 +1,5 @@
+2015/01/30-00:01:03.274 d2c Recovering log #40
+2015/01/30-00:01:03.274 d2c Level-0 table #42: started
+2015/01/30-00:01:03.275 d2c Level-0 table #42: 0 bytes OK
+2015/01/30-00:01:03.469 d2c Delete type=0 #40
+2015/01/30-00:01:03.470 d2c Delete type=3 #38

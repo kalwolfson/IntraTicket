@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+    <siteMapNode url="" title=""  description="">
+        <siteMapNode url="~/Pages/Tickets.aspx" title="Home"  description="HomePage and Ticket View" />
+        <siteMapNode url="~/Pages/NewTicket.aspx" title="New Ticket"  description="HelpDesk Ticket Requester" />
+    </siteMapNode>
+</siteMap>

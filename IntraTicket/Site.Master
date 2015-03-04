@@ -1,0 +1,37 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.Master.cs" Inherits="IntraTicket.Site1" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <!-- Header -->
+        <div class="Header">
+            <asp:Image ID="Image1" runat="server"
+                ImageUrl="~/Content/Images/peters_papers_logo.png"/>
+        </div>
+        <div class="Menu">
+            <asp:SiteMapDataSource ID="siteMap" runat="server"
+                ShowStartingNode="false" />
+            <asp:Menu ID="PetersTicketMenu" runat="server"
+                DataSourceID="siteMap">
+                <StaticItemTemplate>
+                    <img src="~/Content/Images/book_closed.gif"
+                        width="16" height="16" style="border-width: 0;" />
+                    <%# Eval("Text") %>
+                </StaticItemTemplate>
+            </asp:Menu>
+        </div>
+        <div class="Content">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+    </form>
+</body>
+</html>
+
